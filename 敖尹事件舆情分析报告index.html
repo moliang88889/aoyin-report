@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>敖尹事件舆情分析报告 ：课程作业（网页版 ：骨架）</title>
+<meta name="description" content="《恋与深空》新增第六男主「敖尹」事件舆情分析课程报告网页版 —— 当前为骨架，双栏学术排版，正文与数据待填。">
+
+<!-- ============================================================
+     文件说明 / HOW TO USE THIS SKELETON  (v2 ：期刊双栏版)
+     ------------------------------------------------------------
+     定位：一篇约 5000 字学术报告的网页版。文字为主，图表是插图。
+     版式：首屏 / 章节标题 / 时间线 / 表格 = 通栏；正文段落 = 两栏。
+
+     替换标记检索方式（注释内不写完整闭合符，故以 REPLACE 前缀检索）：
+     1) "REPLACE:" 前缀注释      → 需填入真实正文的位置（附建议字数）
+     2) "// REPLACE-DATA:"       → 需用真实采集数据替换的示例数组
+     3) class="ph"               → 占位文字，右下角按钮可关闭高亮预览成稿
+     4) class="edit-note"        → 编辑提示块，交付前整块删除（共 1 处）
+     5) "SECTION:" 前缀注释      → 分区锚点，供定点修改定位
+
+     视觉约束（勿破坏）：
+     ：唯一强调色 深墨蓝 #1c3b5a；纸感米底 #f3f2ec；细线分隔；大量留白
+     ：无卡片阴影、无圆角渐变、无发光、无滚动动画、无图表切换交互
+     ============================================================ -->
+
+<style>
+/* ============================================================
+   SECTION: tokens 设计变量
+   ============================================================ */
+:root{
+  --paper:#f3f2ec;
+  --paper-2:#eae8df;
+  --paper-3:#fbfaf6;
+  --ink:#1f1e1c;
+  --ink-2:#4a4842;
+  --ink-3:#7d7b73;
+  --ink-4:#a09d94;
+  --rule:#dcd8cd;
+  --rule-2:#c7c2b4;
+  --rule-3:#1f1e1c;
+  --accent:#1c3b5a;
+  --accent-2:#41658a;
+  --accent-3:#7d97ae;
+  --accent-4:#b6c2cd;
+  --mark:rgba(168,133,58,.16);
+  --mark-line:#a8853a;
+  --serif:"Source Han Serif SC","Noto Serif CJK SC","Source Han Serif CN","Songti SC","STSong",SimSun,Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  --wrap:1080px;
+  --pad:clamp(18px,4.4vw,46px);
+  --runhead:42px;
+}
+
+/* ============================================================
+   SECTION: reset-base
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--runhead) + 16px)}
+body{
+  margin:0;
+  background-color:var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg,rgba(31,30,28,.013) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.45),transparent 58%);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:clamp(15px,.4vw + 14px,16.5px);
+  line-height:1.9;
+  -webkit-font-smoothing:antialiased;
+}
+img,canvas,svg{max-width:100%;height:auto}
+h1,h2,h3,h4{margin:0;font-weight:600;line-height:1.25;letter-spacing:-.005em}
+p{margin:0 0 1em}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+table{border-collapse:collapse;width:100%}
+sup{line-height:0}
+::selection{background:rgba(28,59,90,.16)}
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
+
+/* ============================================================
+   SECTION: type 排印层级
+   ============================================================ */
+.kicker{
+  font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 clamp(16px,2.4vw,26px);
+}
+.tiny{font-family:var(--sans);font-size:11px;line-height:1.7;color:var(--ink-4);letter-spacing:.03em}
+.small{font-size:13px;line-height:1.8;color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums lining-nums}
+.code-note{
+  font-family:var(--mono);font-size:11px;color:var(--ink-4);
+  background:var(--paper-2);border:1px solid var(--rule);padding:1px 5px;
+}
+sup.ref{font-family:var(--sans);font-size:9.5px;font-weight:600;vertical-align:super}
+sup.ref a{color:var(--accent);border-bottom:1px solid rgba(28,59,90,.3);padding-bottom:1px}
+
+/* ============================================================
+   SECTION: chrome 报头导航（静态细条，无滚动动画）
+   ============================================================ */
+.runhead{
+  position:sticky;top:0;z-index:40;
+  background:rgba(243,242,236,.96);
+  border-bottom:1px solid var(--rule);
+  min-height:var(--runhead);
+}
+.runhead .wrap{display:flex;align-items:center;gap:clamp(10px,2.2vw,26px);min-height:var(--runhead)}
+.rh-brand{
+  font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);white-space:nowrap;flex:0 0 auto;
+}
+.rh-links{display:flex;gap:clamp(7px,1.5vw,17px);min-width:0;overflow-x:auto;scrollbar-width:none}
+.rh-links::-webkit-scrollbar{display:none}
+.rh-links a{
+  font-family:var(--sans);font-size:11.5px;color:var(--ink-3);white-space:nowrap;
+  padding:11px 0;border-bottom:1px solid transparent;
+}
+.rh-links a:hover,.rh-links a:focus-visible{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* 占位高亮开关 */
+.ph-toggle{
+  position:fixed;right:clamp(12px,2.4vw,22px);bottom:clamp(12px,2.4vw,22px);z-index:50;
+  font-family:var(--sans);font-size:11px;letter-spacing:.07em;
+  background:var(--paper-3);color:var(--ink-2);border:1px solid var(--rule-2);
+  padding:8px 12px;min-height:34px;cursor:pointer;
+}
+.ph-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.ph-toggle[aria-pressed="false"]{background:var(--paper-2);color:var(--ink-4)}
+
+/* ============================================================
+   SECTION: placeholder 占位高亮 + 编辑提示
+   ============================================================ */
+.ph{background:var(--mark);border-bottom:1px dashed rgba(168,133,58,.55);padding:0 .1em}
+body.ph-off .ph{background:none;border-bottom:none;padding:0}
+.edit-note{
+  font-family:var(--sans);font-size:11.5px;line-height:1.8;letter-spacing:.02em;
+  color:#7a6531;background:rgba(168,133,58,.085);border-left:2px solid var(--mark-line);
+  padding:11px 14px;margin:clamp(26px,4vw,40px) 0 0;
+}
+.edit-note b{font-weight:700;color:#5f4e22}
+.edit-note ul{margin:6px 0 0;padding-left:15px;list-style:disc}
+.edit-note li{margin:2px 0}
+body.ph-off .edit-note{display:none}
+
+/* ============================================================
+   SECTION: cover 首屏（通栏）
+   ============================================================ */
+.cover{padding-top:clamp(24px,3.6vw,44px);padding-bottom:clamp(40px,6vw,76px)}
+.plate{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+  font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);padding-bottom:8px;border-bottom:1px solid var(--rule-3);
+}
+.plate .c{color:var(--accent);font-weight:700}
+.rule-double{border-top:1px solid var(--rule-3);margin-top:2px;padding-top:4px;border-bottom:1px solid var(--rule-2)}
+
+.cover-main{max-width:52rem;margin-top:clamp(28px,4.6vw,54px)}
+.cover-main h1{
+  font-size:clamp(2.05rem,5.6vw,3.65rem);line-height:1.12;font-weight:700;letter-spacing:-.022em;
+}
+.cover-main h1 .sub{
+  display:block;margin-top:clamp(10px,1.6vw,18px);
+  font-size:clamp(1.02rem,2.1vw,1.5rem);line-height:1.4;font-weight:400;color:var(--ink-2);letter-spacing:0;
+}
+.dek{
+  margin:clamp(20px,3vw,32px) 0 0;max-width:46rem;
+  font-size:clamp(1rem,1.02vw,1.1rem);line-height:1.95;color:var(--ink-2);
+}
+.byline{
+  display:flex;flex-wrap:wrap;gap:5px 20px;align-items:baseline;
+  margin-top:clamp(18px,2.6vw,26px);padding-top:12px;border-top:1px solid var(--rule);
+  font-family:var(--sans);font-size:11.5px;letter-spacing:.05em;color:var(--ink-3);
+}
+.byline b{color:var(--ink);font-weight:600}
+.kwline{margin-top:9px;font-family:var(--sans);font-size:11px;letter-spacing:.05em;color:var(--ink-4)}
+.kwline b{color:var(--ink-3);font-weight:600;letter-spacing:.14em;margin-right:8px}
+
+/* 核心数字：一行四项，小而克制，不做视觉主角 */
+.numrow{
+  display:flex;flex-wrap:wrap;align-items:stretch;
+  margin-top:clamp(22px,3.2vw,34px);border-top:1px solid var(--rule-3);border-bottom:1px solid var(--rule);
+}
+.ni{flex:1 1 0;min-width:0;padding:13px clamp(8px,1.6vw,18px);border-right:1px solid var(--rule)}
+.ni:last-child{border-right:none}
+.ni .v{
+  display:block;font-family:var(--serif);font-weight:600;font-size:clamp(1.12rem,1.9vw,1.5rem);
+  line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.01em;
+}
+.ni .u{font-size:.62em;font-weight:600;margin-left:.08em;color:var(--ink-2)}
+.ni .k{display:block;margin-top:5px;font-family:var(--sans);font-size:10.5px;letter-spacing:.06em;color:var(--ink-3);line-height:1.5}
+
+/* ============================================================
+   SECTION: section 章节外壳（通栏标题 + 双栏正文）
+   ============================================================ */
+.sec{padding:clamp(38px,5.6vw,72px) 0;border-top:1px solid var(--rule)}
+.sec-head{
+  display:flex;align-items:flex-start;gap:clamp(12px,2vw,24px);
+  margin-bottom:clamp(22px,3.4vw,38px);padding-bottom:clamp(12px,1.8vw,18px);
+  border-bottom:1px solid var(--rule-3);
+}
+.sec-no{
+  font-family:var(--serif);font-weight:400;color:var(--accent);
+  font-size:clamp(2.5rem,6.4vw,4.3rem);line-height:.84;letter-spacing:-.03em;
+  font-variant-numeric:lining-nums;flex:0 0 auto;padding-top:.04em;
+}
+.sec-titles{min-width:0;flex:1 1 auto}
+.sec-titles h2{font-size:clamp(1.4rem,2.9vw,2.05rem);line-height:1.2}
+.sec-titles .en{
+  display:block;margin-top:7px;font-family:var(--sans);font-size:10.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-4);
+}
+.sec-titles .cn-no{
+  display:block;margin-bottom:8px;font-family:var(--sans);font-size:11px;
+  letter-spacing:.2em;color:var(--ink-3);
+}
+
+/* ============================================================
+   SECTION: prose 双栏正文（学术期刊版式核心）
+   ============================================================ */
+.prose{
+  columns:2;
+  column-gap:clamp(28px,3.6vw,50px);
+  column-rule:1px solid var(--rule);
+  font-size:clamp(14.8px,.36vw + 13.9px,16.2px);
+  line-height:1.94;
+}
+.prose p{
+  margin:0 0 .95em;text-indent:2em;text-align:justify;
+  text-justify:inter-ideograph;hyphens:auto;orphans:2;widows:2;
+}
+.prose p.no-indent{text-indent:0}
+.prose h3{break-after:avoid;break-inside:avoid}
+.prose figure,.prose blockquote,.prose table,.prose .tl-strip{break-inside:avoid}
+/* 栏内的非正文块（图题、时间线标签与注）不套用段落首行缩进 */
+.prose .fig-title,.prose .tl-label,.prose .tl-cap,.prose .tbl-note{
+  text-indent:0;text-align:left;
+}
+
+/* 小节标题（栏内，带细线） */
+.sub-h{
+  break-after:avoid;break-inside:avoid;
+  border-top:1px solid var(--rule-3);padding-top:9px;
+  margin:1.75em 0 .8em;font-family:var(--serif);
+  font-size:1.03em;font-weight:700;line-height:1.4;
+}
+.sub-h .no{font-family:var(--mono);font-size:.76em;font-weight:400;color:var(--accent);letter-spacing:.04em;margin-right:.55em}
+.sub-h.first{margin-top:0}
+
+/* 段首跑题标签（风险 / 对策） */
+.runin{
+  font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  color:var(--accent);margin-right:.7em;vertical-align:.06em;
+}
+
+/* 通栏元素：跨越两栏 */
+.span-all{column-span:all;break-inside:avoid}
+
+/* 首字下沉 */
+.prose p.first{text-indent:0}
+.prose p.first::first-letter{
+  float:left;font-family:var(--serif);font-size:3.02em;line-height:.85;font-weight:700;
+  color:var(--accent);padding:.05em .1em 0 0;
+}
+
+/* 关键结论：细线引出 */
+.pull{
+  column-span:all;break-inside:avoid;
+  border-top:1px solid var(--rule-3);border-bottom:1px solid var(--rule-3);
+  padding:clamp(15px,2.4vw,26px) 0;margin:1.7em 0;
+}
+.pull p{
+  text-indent:0;text-align:left;margin:0;
+  font-size:clamp(1.06rem,1.85vw,1.4rem);line-height:1.55;font-weight:600;
+  color:var(--ink);max-width:44ch;
+}
+.pull .who{
+  display:block;margin-top:12px;font-family:var(--sans);font-size:10.5px;
+  font-weight:400;letter-spacing:.12em;color:var(--ink-3);
+}
+
+/* ============================================================
+   SECTION: timeline 横向时间线（小巧思，克制尺寸）
+   ============================================================ */
+.tl-strip{
+  column-span:all;break-inside:avoid;
+  margin:1.5em 0 1.7em;padding-top:4px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+}
+.tl-label{
+  font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-4);margin:0 0 12px;text-indent:0;
+}
+.tl-track{
+  display:flex;position:relative;min-width:620px;padding:0 2px 0 0;
+  border-top:1px solid var(--rule);padding-top:0;
+}
+.tl-track::before{
+  content:"";position:absolute;left:0;right:0;top:3px;border-top:1px solid var(--rule-2);
+}
+.tl-node{
+  flex:1 1 0;min-width:0;position:relative;padding:11px 10px 0 0;
+}
+.tl-node .dot{
+  position:absolute;left:0;top:0;width:7px;height:7px;background:var(--paper);
+  border:1px solid var(--accent-3);
+}
+.tl-node.key .dot{background:var(--accent);border-color:var(--accent)}
+.tl-node .d{
+  display:block;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--accent);
+}
+.tl-node .t{
+  display:block;margin-top:3px;font-family:var(--sans);font-size:11px;line-height:1.5;color:var(--ink-2);
+}
+.tl-cap{
+  margin:11px 0 0;font-family:var(--sans);font-size:10.5px;line-height:1.7;color:var(--ink-4);text-indent:0;
+}
+
+/* ============================================================
+   SECTION: figure 插图（小图 + 细线图注，无边框卡片）
+   ============================================================ */
+.fig{margin:0 0 1.45em;break-inside:avoid}
+.fig-tag{
+  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px;
+}
+.fig-title{
+  font-family:var(--serif);font-size:.96em;font-weight:700;line-height:1.5;
+  margin:0 0 9px;color:var(--ink);
+}
+.chart{width:100%;height:clamp(186px,23vw,222px)}
+.chart.short{height:clamp(176px,21vw,208px)}
+.chart-fallback{
+  display:flex;align-items:center;justify-content:center;height:100%;
+  font-family:var(--sans);font-size:11.5px;color:var(--ink-4);text-align:center;
+  padding:14px;line-height:1.7;border:1px dashed var(--rule-2);
+}
+.fig-cap{
+  border-top:1px solid var(--rule-2);margin-top:9px;padding-top:7px;
+  font-family:var(--sans);font-size:10.5px;line-height:1.72;color:var(--ink-4);
+}
+.fig-cap .legend{display:block;margin-bottom:4px;color:var(--ink-3)}
+.fig-cap .legend i{
+  display:inline-block;width:13px;height:2px;background:var(--accent);
+  vertical-align:middle;margin:0 5px 0 0;
+}
+.fig-cap .legend i.l2{background:var(--accent-3)}
+.fig-cap .legend i.sq{height:8px;width:8px;margin-right:5px}
+.fig-cap .legend i.s2{background:var(--accent-3)}
+.fig-cap .legend i.s3{background:var(--accent-4)}
+
+/* ============================================================
+   SECTION: table 学术表格（通栏，细线、表头双线）
+   ============================================================ */
+.tbl-wrap{column-span:all;break-inside:avoid;margin:1.5em 0}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid var(--rule-3);border-bottom:1px solid var(--rule-3)}
+table.data{font-family:var(--sans);font-size:12.2px;line-height:1.62;min-width:640px}
+table.data caption{
+  caption-side:top;text-align:left;padding:0 0 9px;
+  font-family:var(--serif);font-size:.95em;color:var(--ink);font-weight:700;
+}
+table.data caption .tag{
+  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin-right:8px;
+}
+table.data th,table.data td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+table.data thead th{
+  font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:700;border-bottom:1px solid var(--rule-3);white-space:nowrap;background:var(--paper-2);
+}
+table.data tbody tr:last-child td{border-bottom:none}
+table.data td.k{font-family:var(--serif);font-size:13px;color:var(--ink);white-space:nowrap;font-weight:600}
+table.data td.n{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--accent);font-weight:600}
+.tbl-note{margin:9px 0 0;font-family:var(--sans);font-size:10.5px;line-height:1.72;color:var(--ink-4)}
+
+/* ============================================================
+   SECTION: refs 参考文献（栏内悬挂缩进）
+   ============================================================ */
+.refs{margin-top:.4em}
+.refs li{
+  break-inside:avoid;padding:7px 0 7px 2.1em;position:relative;
+  font-size:.9em;line-height:1.78;color:var(--ink-2);border-bottom:1px solid var(--rule);
+  text-align:left;text-indent:0;
+}
+.refs li:last-child{border-bottom:none}
+.refs li .rt{
+  position:absolute;left:0;top:7px;font-family:var(--mono);font-size:.86em;color:var(--accent);
+}
+
+/* ============================================================
+   SECTION: footer 版权页
+   ============================================================ */
+.colophon{border-top:1px solid var(--rule-3);padding:clamp(24px,3.6vw,40px) 0;background:var(--paper-2)}
+.colo-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(16px,2.4vw,30px);align-items:start}
+.colo-grid > div{min-width:0}
+.h-mini{
+  font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 9px;
+}
+.colo-note{
+  margin-top:clamp(18px,2.8vw,28px);padding-top:14px;border-top:1px solid var(--rule-2);
+  display:flex;flex-wrap:wrap;gap:7px 18px;justify-content:space-between;
+  font-family:var(--sans);font-size:10.5px;color:var(--ink-4);letter-spacing:.04em;
+}
+
+/* ============================================================
+   SECTION: responsive
+   ============================================================ */
+@media (max-width:860px){
+  .prose{columns:1;column-rule:none}
+  .span-all,.pull,.tbl-wrap,.tl-strip{column-span:auto}
+  .prose p{text-indent:2em}
+  .chart{height:clamp(196px,54vw,240px)}
+  .chart.short{height:clamp(188px,50vw,230px)}
+}
+@media (max-width:600px){
+  .numrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ni{border-bottom:1px solid var(--rule)}
+  .ni:nth-child(2n){border-right:none}
+  .ni:nth-child(3),.ni:nth-child(4){border-bottom:none}
+  .sec-head{gap:12px}
+  .plate{font-size:9.5px;letter-spacing:.12em}
+  .colo-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   SECTION: print 打印 / 导出 PDF
+   ============================================================ */
+@media print{
+  body{background:#fff;font-size:10.5pt}
+  .runhead,.ph-toggle,.edit-note{display:none !important}
+  .ph{background:none;border-bottom:none}
+  .prose{columns:2;column-gap:9mm}
+  .sec{padding:14pt 0;break-inside:auto}
+  .sec-head,.fig,.pull,.tbl-wrap,.tl-strip{break-inside:avoid}
+  .chart{height:150px}
+  a{color:inherit}
+}
+</style>
+</head>
+
+<body>
+
+<!-- SECTION: chrome 报头导航 -->
+<header class="runhead">
+  <div class="wrap">
+    <span class="rh-brand">敖尹事件 ：舆情分析</span>
+    <nav class="rh-links" aria-label="章节导航">
+      <a href="#s1">一 事件概述</a>
+      <a href="#s2">二 研究方法</a>
+      <a href="#s3">三 数据分析</a>
+      <a href="#s4">四 风险与对策</a>
+      <a href="#s5">五 结论</a>
+      <a href="#top">↑ 顶部</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================================================
+     SECTION: cover 首屏（通栏）
+     ============================================================ -->
+<section class="cover">
+  <div class="wrap">
+
+    <!-- REPLACE: 报头信息 —— 课程名称、组号、年月 -->
+    <div class="plate">
+      <span>舆情分析与应对 ：课程期末报告</span>
+      <span class="c">第 <span class="ph">6</span> 组</span>
+      <span>20<span class="ph">26</span> 年 <span class="ph">11</span> 月</span>
+    </div>
+    <div class="rule-double"></div>
+
+    <div class="cover-main">
+      <p class="kicker">危机传播 ：游戏产业 ：玩家情感契约</p>
+
+      <!-- REPLACE: 主标题 + 副标题（主标题建议 8–14 字，需体现研究问题） -->
+      <h1>
+        <span class="ph">敖尹事件</span>
+        <span class="sub ph">副标题占位：无预警上新、玩家维权与品牌信任的崩塌与修复</span>
+      </h1>
+
+      <!-- REPLACE: 导语一段，150–220 字。交代事件、研究问题、方法与分析框架、主要结论。
+           这段相当于论文摘要，是全篇最重要的文字之一。 -->
+      <p class="dek">
+        <span class="ph">导语占位（150–220 字）：叠纸游戏《恋与深空》在无预警情况下新增第六位男主「敖尹」，触发玩家大规模维权、官媒批评与三次道歉，最终以永久取消角色收场。本报告基于 X 个平台 XX,XXX 条公开文本，运用 SCCT 情境危机传播理论并辅以心理契约与拟社会关系视角，分析舆情演化路径、情感结构变化与官方回应策略的有效性，并提出风险研判与对策建议。</span>
+      </p>
+
+      <!-- REPLACE: 作者 / 分工 / 指导教师 -->
+      <div class="byline">
+        <span>撰文 ：<b class="ph">颜宇程，王俊恒</b></span>
+        <span>数据采集 ：<b class="ph">梁维轩，余佳俊</b></span>
+        <span>指导教师 ：<b class="ph">廉莹</b></span>
+        <span>课程 ：<b class="ph">舆情分析与应对</b></span>
+      </div>
+
+      <!-- REPLACE: 关键词（5–6 个，与课程内容呼应） -->
+      <p class="kwline"><b>关键词</b><span class="ph">舆情演化；危机传播；SCCT；心理契约；拟社会关系；乙女游戏</span></p>
+
+      <!-- 核心数字带：四项为用户已确认可用的事实数字，交付前核对口径与统计截止时间 -->
+      <div class="numrow">
+        <div class="ni">
+          <span class="v num">100<span class="u">万+</span></span>
+          <span class="k">相关评论总量</span>
+        </div>
+        <div class="ni">
+          <span class="v num">2.3<span class="u">亿</span></span>
+          <span class="k">主话题浏览量</span>
+        </div>
+        <div class="ni">
+          <span class="v num">50<span class="u">万</span></span>
+          <span class="k">官方账号掉粉（约）</span>
+        </div>
+        <div class="ni">
+          <span class="v num">13.2<span class="u">万</span></span>
+          <span class="k">海外玩家联名请愿</span>
+        </div>
+      </div>
+
+      <!-- 编辑提示：交付前整块删除（搜索 class="edit-note"） -->
+      <div class="edit-note">
+        <b>骨架版说明（交付前删除本块）</b>
+        <ul>
+          <li>正文全部为占位，每处已注明<b>建议字数</b>，合计约 5000 字。检索 <span class="code-note">&lt;!-- REPLACE:</span> 逐处填写。</li>
+          <li>图表为<b>示例数据</b>，检索 <span class="code-note">// REPLACE-DATA:</span> 替换；数组长度可增减。</li>
+          <li>右下角按钮可关闭黄色高亮，预览成稿效果；打印 / 导出 PDF 时提示块与导航自动隐藏。</li>
+          <li>正文为两栏排版，段落首行缩进 2 字符、两端对齐；标题、时间线、表格、图注为通栏。</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: s1 一、事件概述（两栏正文 + 横向时间线）
+     ============================================================ -->
+<section class="sec" id="s1">
+  <div class="wrap">
+
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <div class="sec-titles">
+        <span class="cn-no">一</span>
+        <h2>事件概述</h2>
+        <span class="en">Overview of the Incident</span>
+      </div>
+    </div>
+
+    <div class="prose">
+
+      <!-- REPLACE: 段一 350–450 字 ：游戏背景与玩家契约
+           要点：《恋与深空》产品定位与商业模式（乙女向、抽卡、情感陪伴）、
+                五位男主的既有格局、玩家与厂商之间形成的情感契约与消费预期。 -->
+      <p class="first"><span class="ph">段一占位（350–450 字）：游戏背景：说明《恋与深空》的产品类型、核心玩法与盈利模式，交代事件发生前五位男主构成的角色格局，以及玩家围绕角色所形成的情感投入与消费预期。此处应建立后文分析所需的「心理契约」概念基础，可插入第一条参考文献引注。</span><sup class="ref"><a href="#r1">[1]</a></sup></p>
+
+      <!-- REPLACE: 段二 400–500 字 ：空降敖尹
+           要点：上新的具体时间与形式、为何构成「无预警」、官方沟通缺失之处、
+                玩家预期落差的直接触发点（既有角色资源被稀释 / 剧情承诺被打破）。 -->
+      <p><span class="ph">段二占位（400–500 字）：空降敖尹：叙述第六位男主上线的时间点与方式，指出其「无预警」属性——版本更新前缺少预告与沟通铺垫。分析玩家预期落差的具体来源，包括对既有角色内容排期的预期、对付费投入的沉没成本感知，以及对厂商单方面变更内容规划的抵触。</span></p>
+
+      <!-- REPLACE: 段三 400–500 字 ：争议升级
+           要点：从粉丝圈层到公共舆论场的扩散路径、组织化维权形式（超话集结、
+                评分行动、退款诉求）、主流媒体报道角度与官媒批评的具体指向。 -->
+      <p><span class="ph">段三占位（400–500 字）：争议升级：描述事件如何从玩家社群内部争议扩散为公共议题。说明组织化维权的具体形式与平台分布，交代主流媒体报道角度，以及官方媒体批评所指向的问题（用户权益、内容决策透明度），并指出议题外溢对企业形成的额外压力。</span></p>
+
+      <!-- 横向时间线（通栏，小巧思） -->
+      <div class="tl-strip">
+        <!-- REPLACE: 时间线日期与节点标签；D+N 编号须与第三章图表 X 轴口径一致 -->
+        <p class="tl-label">Figure ：事件关键节点</p>
+        <ol class="tl-track">
+          <li class="tl-node key"><span class="dot"></span><span class="d ph">D0</span><span class="t ph">无预警上新敖尹</span></li>
+          <li class="tl-node"><span class="dot"></span><span class="d ph">D+1</span><span class="t ph">玩家集中反弹</span></li>
+          <li class="tl-node key"><span class="dot"></span><span class="d ph">D+3</span><span class="t ph">第一次回应 R1</span></li>
+          <li class="tl-node"><span class="dot"></span><span class="d ph">D+5</span><span class="t ph">媒体与官媒批评</span></li>
+          <li class="tl-node key"><span class="dot"></span><span class="d ph">D+7</span><span class="t ph">第二次回应 R2</span></li>
+          <li class="tl-node"><span class="dot"></span><span class="d ph">D+9</span><span class="t ph">海外联名请愿</span></li>
+          <li class="tl-node key"><span class="dot"></span><span class="d ph">D+11</span><span class="t ph">第三次回应 R3</span></li>
+          <li class="tl-node key"><span class="dot"></span><span class="d ph">D+12</span><span class="t ph">永久取消角色</span></li>
+          <li class="tl-node"><span class="dot"></span><span class="d ph">D+14</span><span class="t ph">声量回落</span></li>
+        </ol>
+        <p class="tl-cap">注：实心方点为关键节点。<span class="ph">占位 —— 补充日期口径说明（以官方上新公告日为 D0）与信息来源（公开报道及官方公告，已交叉核验）。</span></p>
+      </div>
+
+      <!-- REPLACE: 段四 400–500 字 ：三次道歉
+           要点：三次回应的渠道、时间间隔、措辞与措施差异；
+                玩家对每次回应的即时反应；此处只做事实叙述，策略分析留到第三章。 -->
+      <p><span class="ph">段四占位（400–500 字）：三次道歉：按时间顺序叙述官方三次回应的渠道与形式、彼此间隔，以及措辞与处置措施上的递进变化。记录玩家群体对每次回应的即时反应分化。本章仅作事实陈述，回应策略的理论分析见第三章 3.3。</span></p>
+
+      <!-- REPLACE: 段五 400–500 字 ：数据规模与海外撕裂
+           要点：四项核心数据的口径说明（评论量、话题浏览、掉粉、海外请愿）；
+                国内与海外舆论场的差异；玩家群体内部的意见撕裂（满意/仍不满/转向行业讨论）。 -->
+      <p><span class="ph">段五占位（400–500 字）：数据规模与海外撕裂：说明事件舆论规模的四项关键指标及其统计口径与截止时间，指出国内舆论场与海外舆论场在诉求表达、组织方式上的差异。分析玩家群体内部的意见分化——支持处置结果者、认为补偿不足者、以及将讨论转向行业内容决策机制者三类立场。</span><sup class="ref"><a href="#r2">[2]</a></sup></p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: s2 二、研究方法（两栏正文）
+     ============================================================ -->
+<section class="sec" id="s2">
+  <div class="wrap">
+
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <div class="sec-titles">
+        <span class="cn-no">二</span>
+        <h2>研究方法</h2>
+        <span class="en">Theoretical Framework &amp; Methodology</span>
+      </div>
+    </div>
+
+    <div class="prose">
+
+      <h3 class="sub-h first"><span class="no">2.1</span>理论框架</h3>
+
+      <!-- REPLACE: 段一 300–400 字 ：SCCT 为主框架
+           要点：SCCT 核心逻辑（危机责任归因决定策略选择）、四大策略族、
+                为何适用于本事件（厂商被认定负有完全责任的「可预防型危机」）。 -->
+      <p><span class="ph">段一占位（300–400 字）：主框架 SCCT：阐述 Coombs 情境危机传播理论的核心逻辑——公众对危机责任的归因强度决定组织应采用的回应策略。介绍否认型、推责型、重建型、强化型四大策略族，并论证本事件为何属「可预防型危机」（preventable crisis）：内容决策由厂商单方作出，公众归因清晰、责任集中，理论上应优先采用重建型策略。这一判断构成第三章策略编码的评价基准。</span><sup class="ref"><a href="#r3">[3]</a></sup></p>
+
+      <!-- REPLACE: 段二 250–350 字 ：辅以心理契约与拟社会关系
+           要点：为何单纯 SCCT 不足以解释——玩家与角色之间存在拟社会关系，
+                厂商变更构成心理契约违背，情感强度高于普通消费者纠纷。 -->
+      <p><span class="ph">段二占位（250–350 字）：辅助视角：说明单以 SCCT 解释本事件的不足。引入心理契约理论，指出玩家与厂商之间存在未成文的双向期待，单方面新增角色构成契约违背；引入拟社会关系概念，说明玩家对虚拟角色的情感投入具有准人际关系强度，因而反应烈度显著高于一般产品质量纠纷。两个视角共同解释「为何一次内容更新会升级为品牌信任危机」。</span><sup class="ref"><a href="#r4">[4]</a></sup></p>
+
+      <h3 class="sub-h"><span class="no">2.2</span>数据与方法</h3>
+
+      <!-- REPLACE: 段三 300–400 字 ：采集方案
+           要点：平台清单与选取理由、检索关键词与话题标签、时间窗（D0–D14）、
+                采集方式、原始条数与清洗后条数、去重去噪规则、数据伦理声明。 -->
+      <p><span class="ph">段三占位（300–400 字）：数据采集：说明选取的平台及各自在事件中的角色差异（舆论策源、二次扩散、核心玩家聚集、长文本解读、海外场域）；交代检索关键词与话题标签、采集时间窗、采集方式与字段设计；报告原始数据量与清洗后有效样本量，说明去重、去广告与水军、去无关文本的规则。末尾附数据伦理声明：仅采集公开内容，不涉及个人身份信息。</span></p>
+
+      <!-- REPLACE: 段四 250–350 字 ：分析方法
+           要点：情感三分类判定方案（模型/词典）、人工抽样校验比例与准确率、
+                SCCT 编码手册、编码员人数与评分者信度（Kappa 值）、分析工具。 -->
+      <p><span class="ph">段四占位（250–350 字）：分析方法：说明情感三分类（正面 / 中性 / 负面）的判定方案与技术路径，报告人工抽样校验比例与判定准确率；说明 SCCT 编码手册的制定依据、编码员人数与评分者信度指标，以及争议条目的处理方式；列出所用分析工具。同时说明本研究的局限——反讽与圈内表达可能造成情感判定误差。</span></p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: s3 三、数据分析（两栏正文 + 小插图 + 通栏表格）
+     ============================================================ -->
+<section class="sec" id="s3">
+  <div class="wrap">
+
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <div class="sec-titles">
+        <span class="cn-no">三</span>
+        <h2>数据分析</h2>
+        <span class="en">Findings</span>
+      </div>
+    </div>
+
+    <div class="prose">
+
+      <h3 class="sub-h first"><span class="no">3.1</span>声量演化：爆发、外溢与回落</h3>
+
+      <!-- REPLACE: 段一 300–400 字 ：声量总体形态
+           要点：三阶段划分（爆发期 / 高位持续期 / 回落期）、峰值出现在 D+几、
+                峰值量级、与上新和回应节点的时点关系。写作时引用「图 1」。 -->
+      <p><span class="ph">段一占位（300–400 字）：声量形态：依据图 1，描述全平台声量自 D0 起的爬升过程、首次峰值出现的时间与量级，以及高位持续的天数。指出声量峰值并非出现在上新当日，而是滞后于官方首次回应，说明回应本身成为二次引爆点。按形态将事件划分为爆发期、高位持续期与回落期三个阶段。</span></p>
+
+      <!-- 插图 1：声量趋势（栏内小图） -->
+      <figure class="fig">
+        <span class="fig-tag">图 1 / Fig. 1</span>
+        <p class="fig-title ph">全平台每日声量与负面声量走势（D0–D14）</p>
+        <div id="chart-volume" class="chart" role="img" aria-label="折线图：全平台每日总声量与负面声量走势，虚线标注三次官方回应节点"></div>
+        <figcaption class="fig-cap">
+          <span class="legend"><i></i>全平台总声量　<i class="l2"></i>其中负面声量　│　竖虚线 = 官方回应节点 R1 / R2 / R3</span>
+          数据来源：<span class="ph">占位（平台 + 采集方式 + 统计截止时间）</span>；单位：条 / 日。<b>当前为示例数据，待真实采集结果替换。</b>
+        </figcaption>
+      </figure>
+
+      <!-- REPLACE: 段二 250–350 字 ：平台差异与外溢
+           要点：各平台声量占比与角色分工、议题从粉丝圈层进入公共舆论场的
+                标志（媒体账号介入时点）、跨平台迁移路径。 -->
+      <p><span class="ph">段二占位（250–350 字）：平台差异：说明各平台在声量结构中的占比与功能分工——哪一平台承担议题策源、哪一平台负责二次扩散与破圈、哪一平台形成长文本解读。指出媒体与官媒账号介入的具体时点，作为议题从粉丝圈层进入公共舆论场的标志。</span></p>
+
+      <h3 class="sub-h"><span class="no">3.2</span>情感结构：负面强度的三次跃升</h3>
+
+      <!-- REPLACE: 段三 300–400 字 ：情感结构变化
+           要点：负面占比在四个时间窗的变化、哪次回应改善、哪次激化；
+                结合心理契约违背解释情绪烈度。写作时引用「图 2」。 -->
+      <p><span class="ph">段三占位（300–400 字）：情感结构：依据图 2，比较 R1 前与三次回应之后的正面、中性、负面情感占比。指出负面占比在 R1 之后不降反升的现象，并以心理契约违背的解释框架说明其成因——回应若被解读为否认或淡化，等于二次违背契约。同时说明正面情感在最终处置后回升但仍低于事件前水平。</span></p>
+
+      <!-- 插图 2：情感对比（栏内小图） -->
+      <figure class="fig">
+        <span class="fig-tag">图 2 / Fig. 2</span>
+        <p class="fig-title ph">三次官方回应前后评论情感结构对比（100% 堆叠）</p>
+        <div id="chart-sentiment" class="chart short" role="img" aria-label="百分比堆叠柱状图：四个时间窗内正面、中性、负面情感占比"></div>
+        <figcaption class="fig-cap">
+          <span class="legend"><i class="sq"></i>负面　<i class="sq s2"></i>中性　<i class="sq s3"></i>正面</span>
+          情感分类：<span class="ph">占位（模型 / 词典 + 人工校验比例与准确率）</span>；n = <span class="ph">33,333</span>。<b>当前为示例数据。</b>
+        </figcaption>
+      </figure>
+
+      <!-- REPLACE: 段四 200–300 字 ：情感与议题的耦合
+           要点：负面情绪集中指向的对象（角色本身 / 上新机制 / 官方态度）
+                随时间的迁移，说明议题升级过程。 -->
+      <p><span class="ph">段四占位（200–300 字）：情感指向迁移：分析负面情绪所指对象随时间的变化——由最初针对角色本身，转向针对内容上新机制与官方沟通态度。这一迁移意味着诉求从「撤回某个角色」升级为「要求决策透明」，也解释了为何单纯的内容撤回难以完全平息舆论。</span></p>
+
+      <h3 class="sub-h"><span class="no">3.3</span>官方回应的 SCCT 策略编码</h3>
+
+      <!-- REPLACE: 段五 300–400 字 ：编码结果与策略迁移
+           要点：三次回应分别被判为何种策略族、策略迁移路径（否认→推责→重建）、
+                策略与情感数据变化的对应关系。写作时引用「表 1」。 -->
+      <p><span class="ph">段五占位（300–400 字）：编码结果：依据表 1，逐一说明三次回应在 SCCT 框架下的策略族归属与具体策略表现，摘录官方原文关键句作为编码证据。指出策略由否认型、推责型向重建型迁移的路径，并将迁移节点与图 2 中负面占比的转折相互印证。</span></p>
+
+      <!-- 表 1：SCCT 策略对照表（通栏） -->
+      <div class="tbl-wrap">
+        <div class="tbl-scroll">
+          <table class="data">
+            <caption><span class="tag">表 1 / Table 1</span><span class="ph">官方三次回应的 SCCT 策略编码与舆情反馈对照</span></caption>
+            <thead>
+              <tr>
+                <th scope="col">回应节点</th>
+                <th scope="col">时间窗</th>
+                <th scope="col">回应要点（原文摘录）</th>
+                <th scope="col">SCCT 策略族 / 具体策略</th>
+                <th scope="col">负面情感占比</th>
+                <th scope="col">有效性判读</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="k">R1 第一次回应</td>
+                <td class="ph">D+N</td>
+                <td class="ph">回应要点占位（原文摘录 1–2 句）</td>
+                <td class="ph">否认型 / 驳斥、淡化</td>
+                <td class="n ph">00%</td>
+                <td class="ph">占位判读</td>
+              </tr>
+              <tr>
+                <td class="k">R2 第二次回应</td>
+                <td class="ph">D+N</td>
+                <td class="ph">回应要点占位</td>
+                <td class="ph">推责型 / 辩解、最小化</td>
+                <td class="n ph">00%</td>
+                <td class="ph">占位判读</td>
+              </tr>
+              <tr>
+                <td class="k">R3 第三次回应</td>
+                <td class="ph">D+N</td>
+                <td class="ph">回应要点占位</td>
+                <td class="ph">重建型 / 道歉、纠正行动、补偿</td>
+                <td class="n ph">00%</td>
+                <td class="ph">占位判读</td>
+              </tr>
+              <tr>
+                <td class="k">处置落地</td>
+                <td class="ph">D+N</td>
+                <td class="ph">永久取消角色公告要点占位</td>
+                <td class="ph">重建型 + 强化型</td>
+                <td class="n ph">00%</td>
+                <td class="ph">占位判读</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- REPLACE: 表注 —— 编码手册、编码员人数、Kappa 信度、理论出处 -->
+        <p class="tbl-note">注：<span class="ph">占位 —— 编码依据 Coombs（2026）策略族分类；编码员 2 名，评分者信度 Cohen's Kappa = 0.85；争议条目经讨论达成一致。负面情感占比取自对应时间窗样本，n = 33,333。</span></p>
+      </div>
+
+      <!-- REPLACE: 段六 250–350 字 ：策略有效性讨论
+           要点：为何前两次回应失效（责任归因强度与策略不匹配）、
+                第三次为何生效、处置落地后的情感残留。 -->
+      <p><span class="ph">段六占位（250–350 字）：策略有效性讨论：运用 SCCT 的匹配原则解释前两次回应失效的原因——在责任归因明确的可预防型危机中使用否认与推责策略，会加剧公众的归因强度。说明第三次回应转向重建型策略后情感结构的改善幅度，并讨论处置落地之后仍然残留的负面情绪及其指向。</span></p>
+
+      <!-- 关键结论：细线引出（通栏） -->
+      <blockquote class="pull">
+        <!-- REPLACE: 核心结论一句话，25–40 字，须由前文数据直接支撑 -->
+        <p class="ph">核心结论占位：用一句话概括本章最重要的发现，作为版面视觉重点，须由前文图表数据直接推导，避免空泛表态。</p>
+        <span class="who">— <span class="ph">本章小结，可标注对应图表编号</span></span>
+      </blockquote>
+
+      <h3 class="sub-h"><span class="no">3.4</span>本章小结</h3>
+
+      <!-- REPLACE: 段七 200–300 字 ：小结，为第四章铺垫 -->
+      <p><span class="ph">段七占位（200–300 字）：小结：归纳三条主要发现（声量峰值滞后于回应、负面强度随策略错配而放大、策略向重建型迁移后情感结构改善），并指出这些发现所暴露的风险面向，为第四章的风险研判提供依据。</span></p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: s4 四、风险研判与对策（两栏正文）
+     ============================================================ -->
+<section class="sec" id="s4">
+  <div class="wrap">
+
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <div class="sec-titles">
+        <span class="cn-no">四</span>
+        <h2>风险研判与对策</h2>
+        <span class="en">Risk Assessment &amp; Recommendations</span>
+      </div>
+    </div>
+
+    <div class="prose">
+
+      <!-- REPLACE: 章首导语 150–220 字 ：说明四类风险的划分依据与对策推导逻辑 -->
+      <p><span class="ph">章首导语占位（150–220 字）：说明本章依据第三章的数据发现，从品牌信任、议题公共化、内容机制、跨语言海外场域四个维度识别风险，并按「风险表现—传导路径—对策建议」的顺序展开论述。对策均由 SCCT 编码结论反推，避免脱离本案例的通用建议。</span></p>
+
+      <h3 class="sub-h"><span class="no">4.1</span>品牌信任与核心用户资产</h3>
+
+      <!-- REPLACE: 风险论述 250–320 字 -->
+      <p><span class="runin">风险</span><span class="ph">占位（250–320 字）：论述核心用户信任受损的表现与量级，引用掉粉规模、退款与评分行为、负面情感残留比例作为依据。说明信任损伤的传导路径——由高付费核心玩家向泛用户扩散，并影响后续内容的付费意愿。</span></p>
+
+      <!-- REPLACE: 对策论述 250–320 字 -->
+      <p><span class="runin">对策</span><span class="ph">占位（250–320 字）：提出建立内容决策的透明化沟通机制与玩家预期管理流程，包括重大内容变更的提前预告窗口、灰度测试与共创沟通渠道、付费用户的权益保障条款。说明各项措施针对第三章哪一发现，以及可衡量的效果指标。</span></p>
+
+      <h3 class="sub-h"><span class="no">4.2</span>议题公共化与监管关注</h3>
+
+      <!-- REPLACE: 风险论述 220–300 字 -->
+      <p><span class="runin">风险</span><span class="ph">占位（220–300 字）：论述官媒批评与主流媒体报道带来的议题升级，说明企业舆情由此从商业纠纷转为公共议题后的额外风险，包括合规审视、行业形象连带、以及后续处置被持续追踪的压力。</span></p>
+
+      <!-- REPLACE: 对策论述 220–300 字 -->
+      <p><span class="runin">对策</span><span class="ph">占位（220–300 字）：提出分级舆情监测与预警指标体系，明确监测平台、关键指标（声量增速、负面占比、权威媒体与 KOL 介入、跨平台迁移）、预警阈值与内部响应流程。强调首次回应的时间窗与措辞框架，避免在公共议题阶段使用否认型策略。</span></p>
+
+      <h3 class="sub-h"><span class="no">4.3</span>内容生产机制的可持续性</h3>
+
+      <!-- REPLACE: 风险论述 220–300 字 -->
+      <p><span class="runin">风险</span><span class="ph">占位（220–300 字）：论述「永久取消角色」这一处置所形成的先例效应，分析其对后续内容规划、角色排期与商业模型的约束，以及可能诱发的同类维权路径依赖风险。</span></p>
+
+      <!-- REPLACE: 对策论述 220–300 字 -->
+      <p><span class="runin">对策</span><span class="ph">占位（220–300 字）：提出在内容更新前设置玩家沟通与影响评估环节，明确既有角色内容承诺的兑现机制；同时建议以规则化方式界定「可协商」与「不可协商」的决策边界，避免逐案让步带来的不确定性。</span></p>
+
+      <h3 class="sub-h"><span class="no">4.4</span>海外场域与跨语言舆情</h3>
+
+      <!-- REPLACE: 风险论述 200–280 字 -->
+      <p><span class="runin">风险</span><span class="ph">占位（200–280 字）：论述海外玩家联名请愿所反映的跨语言沟通短板，说明海外舆论场的组织方式、时区差异与诉求表达特点，以及海外声量对国内决策的反向压力。</span></p>
+
+      <!-- REPLACE: 对策论述 200–280 字 -->
+      <p><span class="runin">对策</span><span class="ph">占位（200–280 字）：提出多语言同步公告机制、海外社群的本地化运营安排、跨时区响应值班制度，以及海外请愿等集体行动的正式受理与反馈渠道。说明相关措施如何降低二次舆情风险。</span></p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: s5 五、结论（两栏正文 + 参考文献）
+     ============================================================ -->
+<section class="sec" id="s5">
+  <div class="wrap">
+
+    <div class="sec-head">
+      <span class="sec-no">05</span>
+      <div class="sec-titles">
+        <span class="cn-no">五</span>
+        <h2>结论</h2>
+        <span class="en">Conclusion &amp; References</span>
+      </div>
+    </div>
+
+    <div class="prose">
+
+      <!-- REPLACE: 结论段一 300–400 字 ：回应研究问题 -->
+      <p><span class="ph">结论段一占位（300–400 字）：回应研究问题，概括本事件舆情演化的整体形态与关键驱动因素，说明一次内容更新为何升级为品牌信任危机——心理契约违背与拟社会关系共同放大了情感强度，而策略错配的回应进一步推高负面声量。</span></p>
+
+      <!-- REPLACE: 结论段二 250–350 字 ：理论与实践贡献 + 局限 -->
+      <p><span class="ph">结论段二占位（250–350 字）：总结本研究的理论贡献（在情感向游戏情境中对 SCCT 匹配原则的验证与补充）与实践启示。同时说明研究局限：采集时间窗仅覆盖 D0–D14、长尾修复效果未被观测；情感判定对反讽与圈内表达存在误差；样本以公开内容为主，无法覆盖私域社群与已删除文本。</span></p>
+
+      <h3 class="sub-h">参考文献</h3>
+
+      <!-- REPLACE: 参考文献按 GB/T 7714 或课程要求格式统一，建议 8–12 条 -->
+      <ol class="refs">
+        <li id="r1"><span class="rt">[1]</span><span class="ph">占位：中文期刊文献一条（作者. 题名[J]. 刊名, 年, 卷(期): 页码.）</span></li>
+        <li id="r2"><span class="rt">[2]</span><span class="ph">占位：新闻报道 / 官方公告一条（作者或机构. 题名[EB/OL]. (发布日期)[引用日期]. 链接.）</span></li>
+        <li id="r3"><span class="rt">[3]</span><span class="ph">占位：Coombs, W. T. Ongoing Crisis Communication: Planning, Managing, and Responding[M]. Thousand Oaks: Sage, 2026: XX–XX.</span></li>
+        <li id="r4"><span class="rt">[4]</span><span class="ph">占位：心理契约或拟社会关系相关文献一条</span></li>
+        <li><span class="rt">[5]</span><span class="ph">占位：游戏产业或乙女向用户研究文献一条</span></li>
+        <li><span class="rt">[6]</span><span class="ph">占位：行业报告或数据机构报告一条（机构名. 报告名[R]. 出版地: 机构, 年.）</span></li>
+        <li><span class="rt">[7]</span><span class="ph">占位：情感分析方法或工具相关文献一条</span></li>
+        <li><span class="rt">[8]</span><span class="ph">占位：补充文献</span></li>
+      </ol>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     SECTION: footer 版权页
+     ============================================================ -->
+<footer class="colophon">
+  <div class="wrap">
+    <div class="colo-grid">
+      <div style="grid-column:span 5">
+        <p class="h-mini">关于本报告</p>
+        <!-- REPLACE: 报告说明 -->
+        <p class="small ph">占位：说明本报告为课程期末作业，以网页形式呈现，内容基于公开信息与自主采集数据，仅供学术讨论使用；引用数据请注明出处。</p>
+      </div>
+      <div style="grid-column:span 4">
+        <p class="h-mini">分工</p>
+        <!-- REPLACE: 组员分工 -->
+        <p class="small ph">选题与统筹 ：刘洺钶<br>数据采集与可视化 ：梁维轩，余佳俊<br>文本分析与 SCCT 编码 ：刘洺钶<br>报告撰写 ：颜宇程，王俊恒<br>网页设计与实现 ：刘洺钶 </p>
+      </div>
+      <div style="grid-column:span 3">
+        <p class="h-mini">目录</p>
+        <p class="small">
+          <a href="#s1">一 事件概述</a><br>
+          <a href="#s2">二 研究方法</a><br>
+          <a href="#s3">三 数据分析</a><br>
+          <a href="#s4">四 风险与对策</a><br>
+          <a href="#s5">五 结论</a>
+        </p>
+      </div>
+    </div>
+    <div class="colo-note">
+      <span>© 20<span class="ph">XX</span> <span class="ph">课程名称 ：第 XX 组</span></span>
+      <span>课程作业展示网页 ：图表数据当前为示例占位</span>
+      <span><a href="#top">返回顶部 ↑</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="ph-toggle" id="phToggle" type="button" aria-pressed="true">占位标记：开</button>
+
+<!-- ECharts CDN（用户明确要求；加载失败时图框显示提示，不影响正文阅读） -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script>
+/* ============================================================
+   SECTION: charts 图表（仅作插图，尺寸小、样式克制）
+   约束：单一强调色 #1c3b5a 明度阶梯；无渐变、无阴影、无发光、无圆角
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var C = {
+    accent:'#1c3b5a', a2:'#41658a', a3:'#7d97ae', a4:'#b6c2cd',
+    ink:'#1f1e1c', ink2:'#4a4842', ink3:'#7d7b73', ink4:'#a09d94',
+    rule2:'#c7c2b4', paper:'#fbfaf6'
+  };
+  var SANS = '-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif';
+  var MONO = 'SFMono-Regular,Consolas,Menlo,monospace';
+
+  function tooltipBase(fmt) {
+    return {
+      trigger:'axis', backgroundColor:C.paper, borderColor:C.rule2, borderWidth:1,
+      padding:[7,10], textStyle:{ fontFamily:SANS, fontSize:11.5, color:C.ink },
+      axisPointer:{ type:'line', lineStyle:{ color:C.rule2, width:1, type:'dashed' } },
+      extraCssText:'box-shadow:none;border-radius:0;', formatter:fmt
+    };
+  }
+  function splitLine(){ return { lineStyle:{ color:'#e6e2d8', width:1, type:'dashed' } }; }
+
+  var charts = [];
+  var hasECharts = (typeof window.echarts !== 'undefined');
+
+  function mount(elId, buildOption, fallbackMsg) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    if (!hasECharts) {
+      var box = document.createElement('div');
+      box.className = 'chart-fallback';
+      box.textContent = fallbackMsg;
+      el.textContent = '';
+      el.appendChild(box);
+      return;
+    }
+    var inst = window.echarts.init(el, null, { renderer:'canvas' });
+    inst.setOption(buildOption());
+    charts.push(inst);
+    /* 双栏布局重排时同步重绘 */
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(function () { inst.resize(); });
+      ro.observe(el);
+    }
+  }
+
+  /* ============================================================
+     图 1 ：声量趋势（两条线 + 三次回应竖虚线）
+     // REPLACE-DATA: fig1 —— 用真实采集的每日声量替换下列数组
+     //   DAYS 为相对日编号，须与第一章时间线口径一致；天数可增减
+     ============================================================ */
+  var DAYS = ['D0','D1','D2','D3','D4','D5','D6','D7','D8','D9','D10','D11','D12','D13','D14'];
+
+  // REPLACE-DATA: fig1 全平台每日总声量（示例，单位：条）
+  var VOL_TOTAL = [2130, 9720, 18500, 18300, 16300, 22400, 29700, 29300, 23000, 18100, 13400, 12200, 8500, 6800, 5500];
+  // REPLACE-DATA: fig1 其中负面声量（示例，单位：条，应小于等于总声量）
+  var VOL_NEG   = [ 780, 5240, 12600, 13900, 12100, 16800, 23100, 22600, 17200, 13000,  9300,  7900, 5100, 3900, 3000];
+  // REPLACE-DATA: fig1 三次官方回应对应的 DAYS 下标（示例为 D3 / D7 / D11）
+  var RESP = [{ i:3, t:'R1' }, { i:7, t:'R2' }, { i:11, t:'R3' }];
+
+  function optionVolume() {
+    var marks = RESP.map(function (n) {
+      return {
+        xAxis: DAYS[n.i],
+        label:{ show:true, formatter:n.t, position:'insideEndTop', fontFamily:SANS, fontSize:9.5, fontWeight:'bold', color:C.accent },
+        lineStyle:{ color:C.accent, width:1, type:'dashed', opacity:.5 }
+      };
+    });
+    return {
+      animationDuration:520, animationEasing:'cubicOut',
+      grid:{ left:4, right:12, top:16, bottom:2, containLabel:true },
+      tooltip: tooltipBase(function (ps) {
+        if (!ps || !ps.length) return '';
+        var html = '<div style="font-weight:700;letter-spacing:.05em;margin-bottom:5px">' + ps[0].axisValue + '</div>';
+        for (var i = 0; i < ps.length; i++) {
+          html += '<div style="display:flex;justify-content:space-between;gap:16px;line-height:1.65">'
+               +  '<span><span style="display:inline-block;width:9px;height:2px;background:' + ps[i].color + ';margin-right:6px"></span>' + ps[i].seriesName + '</span>'
+               +  '<b style="font-variant-numeric:tabular-nums">' + ps[i].data.toLocaleString() + '</b></div>';
+        }
+        html += '<div style="margin-top:5px;font-size:10.5px;color:#7d7b73">示例数据 ：单位：条/日</div>';
+        return html;
+      }),
+      xAxis:{
+        type:'category', data:DAYS, boundaryGap:false,
+        axisLine:{ lineStyle:{ color:C.rule2, width:1 } }, axisTick:{ show:false },
+        axisLabel:{ fontFamily:MONO, fontSize:9.5, color:C.ink4, margin:9, interval:1 }
+      },
+      yAxis:{
+        type:'value', axisLine:{ show:false }, axisTick:{ show:false }, splitLine:splitLine(),
+        axisLabel:{ fontFamily:SANS, fontSize:9.5, color:C.ink4, formatter:function (v) { return v >= 1000 ? (v / 1000) + 'k' : v; } }
+      },
+      series:[
+        {
+          name:'全平台总声量', type:'line', data:VOL_TOTAL, smooth:false,
+          showSymbol:false, symbol:'circle', symbolSize:4,
+          lineStyle:{ color:C.accent, width:1.8 }, itemStyle:{ color:C.accent },
+          emphasis:{ focus:'series' }, z:3,
+          markLine:{ silent:true, symbol:'none', animation:false, data:marks }
+        },
+        {
+          name:'其中负面声量', type:'line', data:VOL_NEG, smooth:false,
+          showSymbol:false, symbol:'circle', symbolSize:4,
+          lineStyle:{ color:C.a3, width:1.5, type:'dashed' }, itemStyle:{ color:C.a3 },
+          emphasis:{ focus:'series' }, z:2
+        }
+      ]
+    };
+  }
+
+  /* ============================================================
+     图 2 ：情感结构对比（100% 堆叠柱，四个时间窗）
+     // REPLACE-DATA: fig2 —— 用真实情感分析结果替换（单位 %，三项相加 = 100）
+     ============================================================ */
+  // REPLACE-DATA: fig2 时间窗标签
+  var W = ['R1 前\nD0–D2', 'R1 后\nD3–D6', 'R2 后\nD7–D10', 'R3 后\nD11–D14'];
+  // REPLACE-DATA: fig2 负面占比（%）
+  var NEG = [38, 71, 76, 54];
+  // REPLACE-DATA: fig2 中性占比（%）
+  var NEU = [33, 19, 16, 25];
+  // REPLACE-DATA: fig2 正面占比（%）
+  var POS = [29, 10,  8, 21];
+
+  function optionSentiment() {
+    return {
+      animationDuration:520, animationEasing:'cubicOut',
+      grid:{ left:4, right:10, top:14, bottom:2, containLabel:true },
+      tooltip: tooltipBase(function (ps) {
+        if (!ps || !ps.length) return '';
+        var html = '<div style="font-weight:700;margin-bottom:5px">' + String(ps[0].axisValue).replace('\n', ' ') + '</div>';
+        for (var i = 0; i < ps.length; i++) {
+          html += '<div style="display:flex;justify-content:space-between;gap:16px;line-height:1.65">'
+               +  '<span><span style="display:inline-block;width:8px;height:8px;background:' + ps[i].color + ';margin-right:6px"></span>' + ps[i].seriesName + '</span>'
+               +  '<b style="font-variant-numeric:tabular-nums">' + ps[i].data + '%</b></div>';
+        }
+        html += '<div style="margin-top:5px;font-size:10.5px;color:#7d7b73">示例数据 ：占位待替换</div>';
+        return html;
+      }),
+      xAxis:{
+        type:'category', data:W,
+        axisLine:{ lineStyle:{ color:C.rule2, width:1 } }, axisTick:{ show:false },
+        axisLabel:{ fontFamily:SANS, fontSize:9.5, color:C.ink3, interval:0, lineHeight:13 }
+      },
+      yAxis:{
+        type:'value', max:100, axisLine:{ show:false }, axisTick:{ show:false }, splitLine:splitLine(),
+        axisLabel:{ fontFamily:SANS, fontSize:9.5, color:C.ink4, formatter:'{value}%' }
+      },
+      series:[
+        { name:'负面', type:'bar', stack:'s', data:NEG, barWidth:'44%',
+          itemStyle:{ color:C.accent }, emphasis:{ focus:'series' },
+          label:{ show:true, position:'inside', fontFamily:SANS, fontSize:10, color:'#f3f2ec', formatter:'{c}%' } },
+        { name:'中性', type:'bar', stack:'s', data:NEU,
+          itemStyle:{ color:C.a3 }, emphasis:{ focus:'series' } },
+        { name:'正面', type:'bar', stack:'s', data:POS,
+          itemStyle:{ color:C.a4 }, emphasis:{ focus:'series' } }
+      ]
+    };
+  }
+
+  /* ============================================================
+     SECTION: boot 初始化 + 占位开关
+     说明：本版无滚动动画、无进度条、无图表切换交互
+     ============================================================ */
+  function initCharts() {
+    mount('chart-volume', optionVolume,
+      '图 1 ：声量趋势：图表库（ECharts CDN）未能加载，请检查网络后刷新。正文与表格不受影响。');
+    mount('chart-sentiment', optionSentiment,
+      '图 2 ：情感结构对比：图表库（ECharts CDN）未能加载，请检查网络后刷新。正文与表格不受影响。');
+  }
+
+  function initToggle() {
+    var btn = document.getElementById('phToggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var off = document.body.classList.toggle('ph-off');
+      btn.setAttribute('aria-pressed', off ? 'false' : 'true');
+      btn.textContent = off ? '占位标记：关' : '占位标记：开';
+      /* 高亮变化影响布局高度，重绘图表 */
+      setTimeout(function () {
+        for (var i = 0; i < charts.length; i++) { try { charts[i].resize(); } catch (e) {} }
+      }, 60);
+    });
+  }
+
+  function boot() {
+    initToggle();
+    initCharts();
+    /* 字体加载完成后栏宽可能微调，再重绘一次 */
+    window.addEventListener('load', function () {
+      for (var i = 0; i < charts.length; i++) { try { charts[i].resize(); } catch (e) {} }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+
+</body>
+</html>
